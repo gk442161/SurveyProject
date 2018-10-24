@@ -1,0 +1,347 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author GAURAV
+ */
+
+import java.awt.*;
+import java.awt.event.*;
+
+
+import java.awt.event.ActionListener;
+
+import java.sql.*;
+
+public class SurveyPoject extends WindowAdapter implements ActionListener, ItemListener
+{
+    String DBurl=("jdbc:mysql://localhost/details");
+
+	 String user="root";
+	 String pass="";
+	 Connection conn = null;
+	 Statement stmt = null;
+         
+         
+         String res1,res2,res3,res4,res5;
+         Label welcome,l1,l2,l3,l4,l5,l6,l7;
+		TextField t_name, t2, t3;
+		Button b_submit, b_next;
+		Checkbox chbx1,chbx2,chbx3,chbx4,chbx5,chbx6,chbx7,chbx8,chbx9,
+                         chbx10,chbx11,chbx12,chbx13,chbx14,chbx15,chbx16;
+                String sum1;//not needed
+		float sum=0f;//not needed
+                CheckboxGroup cbg1= null;
+		CheckboxGroup cbg2= null;	
+		CheckboxGroup cbg3= null;
+		CheckboxGroup cbg4= null;
+		CheckboxGroup cbg5= null;
+		boolean s;
+		boolean i;
+		String nm,scr;
+		Frame f;
+   
+                public SurveyPoject()
+   {  
+        f= new Frame("SURVEY PROJECT");  
+        f.addWindowListener(this);  
+        f.setSize(800,700);  
+        f.setLayout(null);  
+        f.setVisible(true);
+        f.setBackground(Color.white);
+        f.setForeground(Color.black);
+           	b_submit=new Button("SUBMIT");
+		b_next=new Button("NEXT SURVEY");
+                welcome=new Label("WELLCOME TO SURVEY",Label.CENTER);
+                        welcome.setForeground(Color.magenta);
+                        
+                l1 = new Label("YOUR NAME:",Label.LEFT);
+                         l1.setForeground(Color.black);  
+		l2=new Label("1: MALE OR FEMALE",Label.LEFT);  
+		l3=new Label("2:WHAT GRADE ARE YOU?",Label.LEFT);
+		l4=new Label("3:WHAT IS THE AGE LIMIT OF THE PERSON YOU WOULD DATE?",Label.LEFT);
+	        l5=new Label("4:WOULD YOU EVER DATE SOMEONE OF THE OPSSITE RACE?",Label.LEFT);
+ 		l6=new Label("5:DO YOU BELIEVE TRUE LOVE EXITS IN HIGH SCHOOL?",Label.LEFT);
+ 		l7=new Label("SCORE",Label.LEFT);//not needed
+ 		
+ 		t_name=new TextField(50);
+ 		//t2=new TextField(50);// not needed
+   		t3=new TextField(50);// not needed
+   		
+                cbg1=new CheckboxGroup(); 
+		cbg2=new CheckboxGroup();
+		cbg3=new CheckboxGroup();
+		cbg4=new CheckboxGroup();
+		cbg5=new CheckboxGroup();
+		
+                  chbx1=new Checkbox("MALE",false,cbg1);  		
+		  chbx2=new Checkbox("FEMALE",false,cbg1);
+ 		  chbx3=new Checkbox("OTHER",false,cbg1);
+		 
+                  chbx4=new Checkbox("FRESHMAN",false,cbg2);
+ 		  chbx5=new Checkbox("JUNIOR",false,cbg2);
+		  chbx6=new Checkbox("SENIOR",false,cbg2);
+ 		 
+                  chbx7=new Checkbox("13-15",false,cbg3);
+		  chbx8=new Checkbox("16-18",false,cbg3);
+		  chbx9=new Checkbox("19-21",false,cbg3);
+		  chbx16=new Checkbox("21 OR UP",false,cbg3);
+                 
+                  chbx10=new Checkbox("YES",false,cbg4);
+		  chbx11=new Checkbox("NO",false,cbg4);
+		  chbx12=new Checkbox("NO COMMENT",false,cbg4);
+		 
+                  chbx13=new Checkbox("YES",false,cbg5);
+		  chbx14=new Checkbox("NO",false,cbg5);
+		  chbx15=new Checkbox("DEPENDS ON HOW LONG THE RELATIONSHIP",false,cbg5);
+ 		
+                welcome.setBounds(300,40,150,40);
+ 		l1.setBounds(300,100,80,20);
+  		l2.setBounds(300,150,400,20);
+ 		l3.setBounds(300,250,400,20);
+ 		l4.setBounds(300,350,450,20);
+ 		l5.setBounds(300,450,450,20); 
+ 		l6.setBounds(300,550,450,20);
+ 		//l7.setBounds(700,250,100,20);
+ 		t_name.setBounds(400,90,200,40);
+		//t2.setBounds(800,250,100,40);//not needed
+ 		t3.setBounds(760,760,170,40);// not needed
+ 		
+		chbx1.setBounds(300,175,60,20);
+  		chbx2.setBounds(390,175,90,20);
+ 		chbx3.setBounds(480,175,60,20);
+ 		
+                chbx4.setBounds(300,275,85,20);
+ 		chbx5.setBounds(400,275,60,20);
+ 		chbx6.setBounds(480,275,80,20);
+ 		
+                chbx7.setBounds(300,375,60,20);
+		chbx8.setBounds(380,375,90,20);
+		chbx9.setBounds(460,375,60,20);
+                chbx16.setBounds(530,375,70,20);
+		
+                chbx10.setBounds(300,475,60,20);
+		chbx11.setBounds(380,475,50,20);
+		chbx12.setBounds(450,475,100,20);
+		
+                chbx13.setBounds(300,575,60,30);
+		chbx14.setBounds(380,575,50,30);
+		chbx15.setBounds(450,575,285,30);
+ 			
+		b_submit.setBounds(300,620,100,30);
+		b_next.setBounds(450,620,100,30);
+		f.add(welcome);
+                f.add(l1);
+		f.add(l2);
+		f.add(l3);
+		f.add(l4);
+		f.add(l5);
+		f.add(l6);
+ 		f.add(l7);
+ 		f.add(t_name);
+ 		//f.add(t2);//not needed
+		f.add(t3);// not needed
+		
+		
+		f.add(chbx1);
+		f.add(chbx2);
+		f.add(chbx3);
+		
+                f.add(chbx4);
+		f.add(chbx5);
+		f.add(chbx6);
+		f.add(chbx16);
+                        
+                f.add(chbx7);
+		f.add(chbx8);
+		f.add(chbx9);
+		
+                f.add(chbx10);
+		f.add(chbx11);
+		f.add(chbx12);
+		
+                f.add(chbx13);
+		f.add(chbx14);
+		f.add(chbx15);
+		
+		f.add(b_submit);
+		f.add(b_next);
+		
+		b_submit.addActionListener(this);
+		b_next.addActionListener(this);
+		
+		chbx1.addItemListener(this);
+		chbx2.addItemListener(this);
+		chbx3.addItemListener(this);
+		
+                chbx4.addItemListener(this);
+		chbx5.addItemListener(this);
+		chbx6.addItemListener(this);
+		
+                chbx7.addItemListener(this);
+		chbx8.addItemListener(this);
+		chbx9.addItemListener(this);
+		chbx16.addItemListener(this);//NEWLY ADDED
+                
+                chbx10.addItemListener(this);
+		chbx11.addItemListener(this);
+		chbx12.addItemListener(this);
+		
+                chbx13.addItemListener(this);
+		chbx14.addItemListener(this);
+		chbx15.addItemListener(this);
+	 }
+                public void EventPerformed(ActionEvent act){
+                    
+              
+                if(act.getSource()==b_submit)
+		{ 
+    			nm=t_name.getText();
+                         /*  if(itm.getSource()==chbx1)
+                              res1="MALE";
+                           if(itm.getSource()==chbx2)
+                              res1="FEMALE";
+                           if(itm.getSource()==chbx3)
+                              res1="OTHER";
+                          
+                           if(itm.getSource()==chbx4)
+                              res2="FRESHMAN";
+                           if(itm.getSource()==chbx5)
+                              res2="JUNIOR";
+                           if(itm.getSource()==chbx6)
+                              res2="SENIOR";
+                          
+                           if(itm.getSource()==chbx7)
+                              res3="13-15";
+                           if(itm.getSource()==chbx8)
+                              res3="16-18";
+                           if(itm.getSource()==chbx9)
+                              res3="21 OR UP";
+                          
+                           if(itm.getSource()==chbx10)
+                              res4="YES";
+                           if(itm.getSource()==chbx11)
+                              res4="NO";
+                           if(itm.getSource()==chbx12)
+                              res4="NO COMMENT";
+                           
+                           if(itm.getSource()==chbx13)
+                              res5="YES";
+                           if(itm.getSource()==chbx14)
+                              res5="NO";
+                           if(itm.getSource()==chbx15)
+                              res5="DEPENDS ON HOW LONG THE RELATIONSHIP";*/
+                           
+                            String  str1,str2,str3,str4,str5;
+	                       
+                        res1 = cbg1.getSelectedCheckbox().getLabel();
+                        res2 = cbg2.getSelectedCheckbox().getLabel();
+                        res3 = cbg3.getSelectedCheckbox().getLabel();
+                        res4 = cbg4.getSelectedCheckbox().getLabel();
+                        res5 = cbg5.getSelectedCheckbox().getLabel(); 
+                                 
+			//scr=t2.getText();//not needed
+			t3.setText("Successfully Entered!");//if needed
+		           try //SQL connecting
+			{
+		             Class.forName("com.mysql.jdbc.Driver"); // change  here
+		             System.out.println("Connecting to a selected database...");
+		 	     conn = DriverManager.getConnection(DBurl, user, pass);
+		 	     System.out.println("Connected database successfully...");
+		 	     System.out.println("Creating statement...");
+			     stmt = conn.createStatement();
+			     String sql = "INSERT INTO PUBLIC VALUES('"+nm+"','"+res1+"','"+res2+"','"+res3+"','"+res4+"','"+res5+"')";//table name=PUBLIC
+			     stmt.executeUpdate(sql);
+			     System.out.println("Inserted records into the table...");
+			}
+			catch(SQLException se)
+			{
+				se.printStackTrace();
+			}catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			finally
+			{
+				try
+				{
+					if(stmt!=null)
+					conn.close();
+				}
+				catch(SQLException se)
+				{
+				}
+				try
+				{	
+					if(conn!=null)
+					conn.close();
+					}
+				catch(SQLException se)
+				{
+					se.printStackTrace();
+				}
+			}
+		}
+                if(act.getSource()==b_next)
+		{
+			t_name.setText(" ");
+			t2.setText(" ");
+			t3.setText(" ");
+			sum=0f;//not needed
+       
+		    Checkbox current2 = cbg2.getCurrent();
+			cbg2.setCurrent(null);
+			current2.setState(false);
+	
+			Checkbox current1 = cbg1.getCurrent();
+			cbg1.setCurrent(null);
+		    current1.setState(false);	
+
+			Checkbox current3 = cbg3.getCurrent();
+			cbg3.setCurrent(null);
+		    current3.setState(false);
+		    Checkbox current4 = cbg4.getCurrent();
+			cbg4.setCurrent(null);
+		    current4.setState(false);
+			
+			Checkbox current5 = cbg5.getCurrent();
+			cbg5.setCurrent(null);
+		    current5.setState(false);
+		}
+                }
+                
+ 
+           public void windowClosing(WindowEvent e) 
+	 {  
+		f.dispose();  
+	 } 
+           
+           public static void main(String args[])  
+	{  
+         SurveyPoject abc = new SurveyPoject();
+         
+	}
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+}
+
+  
+
